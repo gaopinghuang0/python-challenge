@@ -10,16 +10,15 @@ headers = { "User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; "\
 	"rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6" }  # pretend to be browser 
 
 
-# one way is to build a function to deal with content
-# or just use (lambda x: x) to return content ^_^
-def soup(url, func=lambda x, y: x):
-	req = requests.get(url, headers=headers).text
+# wrap a func to handle BeautifulSoup content, or
+# return content as the default func
+def soup(url, func=lambda x, y: x, **kw):
+	req = requests.get(url, headers=headers, **kw).text
 	content = BeautifulSoup(req)  
 	return func(content, url)
 
 def get_comment(url, index):
-	content = soup(url)
-	comments = content.findAll(text=lambda text:isinstance(text, Comment))
+	comments = soup(url).findAll(text=lambda text:isinstance(text, Comment))
 	return comments[index]
 
 def cha0():
@@ -76,7 +75,16 @@ def cha4():
 	print nothing
 
 def cha5():
-	pass
+	"""Don't understand..."""
+	import pickle, urllib
+	handle = urllib.urlopen("http://www.pythonchallenge.com/pc/def/banner.p")
+	data = pickle.load(handle)
+	handle.close()
+
+	for elt in data:  # "channel"
+		print "".join([e[0] * e[1] for e in elt])
+
+	del pickle, urllib
 
 def main():
 	cha5()
