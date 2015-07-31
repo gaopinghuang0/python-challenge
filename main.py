@@ -3,11 +3,29 @@
 from __future__ import division, unicode_literals # boilerplate
 import string
 import re
+import requests
+from bs4 import BeautifulSoup, Comment
 
-def cha1():
+headers = { "User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; "\
+	"rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6" }  # pretend to be browser 
+
+
+# one way is to build a function to deal with content
+# or just use (lambda x: x) to return content ^_^
+def soup(url, func=lambda x, y: x):
+	req = requests.get(url, headers=headers).text
+	content = BeautifulSoup(req)  
+	return func(content, url)
+
+def get_comment(url, index):
+	content = soup(url)
+	comments = content.findAll(text=lambda text:isinstance(text, Comment))
+	return comments[index]
+
+def cha0():
 	print "change url to 2**38", 2**38
 
-def cha2():
+def cha1():
 	def shift2(x):
 		return chr(ord('a') + (ord(x) - ord('a') + 2) % 26) if x.isalpha() else x
 
@@ -19,23 +37,49 @@ def cha2():
 		" jmle. sqgle qrpgle.kyicrpylq() gq pcamkkclbcb. lmu ynnjw ml rfc spj."
 	trans(s)
 	trans("map")  # ocr
-	cha2_another(s)
+	cha1_another(s)
 
-def cha2_another(original, shift=2):
+def cha1_another(original, shift=2):
 	az = string.ascii_lowercase
 	table = string.maketrans(
 		az, az[shift:] + az[:shift] 
 	)
 	print str(original).translate(table)
 
-def cha3():
-	from mess_data import MESS_DATA
-	print re.sub(r'[^a-zA-Z]+', '', MESS_DATA)  # equality
-	print "".join(re.findall(r'[a-zA-Z]', MESS_DATA))  # equality
+def cha2():
+	uri = "http://www.pythonchallenge.com/pc/def/ocr.html"
+	mess_data = get_comment(uri, 1)
+	print re.sub(r'[^a-zA-Z]+', '', mess_data)  # equality
+	print "".join(re.findall(r'[a-zA-Z]', mess_data))  # equality
 
+def cha3():
+	"""One small letter, surrounded by EXACTLY three big bodyguards
+	 on each of its sides."""
+
+	uri = "http://www.pythonchallenge.com/pc/def/equality.html"
+	mess_data = get_comment(uri, 0)
+	print "".join(re.findall(r'[^A-Z]+[A-Z]{3}([a-z])[A-Z]{3}[^A-Z]+', mess_data))
+
+def cha4():
+	uri = "http://www.pythonchallenge.com/pc/def/linkedlist.php?nothing=%s"
+	nothing_rep = "and the next nothing is (\d+)"
+	nothing = "8022"  # initial is "12345", be asked to change later, re-run
+
+	while True:
+		try:
+			content = requests.get(uri, params={'nothing': nothing}).text
+			print content
+			nothing = re.search(nothing_rep, content).group(1)
+		except:
+			break
+
+	print nothing
+
+def cha5():
+	pass
 
 def main():
-	cha3()
+	cha5()
 
 if __name__ == '__main__':
 	main()
