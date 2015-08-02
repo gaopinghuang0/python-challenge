@@ -4,6 +4,7 @@ from __future__ import division, unicode_literals # boilerplate
 import string
 import re
 import requests
+import urllib
 from bs4 import BeautifulSoup, Comment
 
 headers = { "User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; "\
@@ -76,7 +77,7 @@ def cha4():
 
 def cha5():
 	"""Don't understand..."""
-	import pickle, urllib
+	import pickle
 	handle = urllib.urlopen("http://www.pythonchallenge.com/pc/def/banner.p")
 	data = pickle.load(handle)
 	handle.close()
@@ -84,10 +85,46 @@ def cha5():
 	for elt in data:  # "channel"
 		print "".join([e[0] * e[1] for e in elt])
 
-	del pickle, urllib
+	del pickle
+
+def cha6_wrong():
+	"Result is: Collect the comments. But the method cannot get comment info"
+	nothing_rep = 'Next nothing is (\d+)'
+	nothing = "90052"
+
+	while True:
+		try:
+			filename = './channel/%s.txt' % nothing
+			with open(filename, 'r') as f:
+				for line in f:
+					print line
+					nothing = re.search(nothing_rep, line).group(1)
+		except:
+			print nothing
+			break
+
+def cha6():
+	import zipfile, collections
+	out, nothing, f = [], "90052", "%s.txt"
+	nothing_rep = "Next nothing is (\d+)"
+
+	# Download the ZIP file from http://www.pythonchallenge.com/pc/def/channel.zip
+
+	file = zipfile.ZipFile('channel.zip')
+
+	while True:
+		try:
+			nothing = re.search(nothing_rep, file.read(f % nothing)).group(1)
+		except:
+			print file.read(f % nothing)
+			break
+
+		out.append(file.getinfo(f % nothing).comment)
+
+	print "".join(out)  # Not the big "hockey", but the letters "oxygen"!!
 
 def main():
-	cha5()
+	cha6()
 
 if __name__ == '__main__':
 	main()
