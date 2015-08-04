@@ -1,10 +1,10 @@
 #!/usr/local/bin/python2.7
 # -*- coding: utf-8 -*-
 from __future__ import division, unicode_literals # boilerplate
-import string
+import string, StringIO
 import re
-import requests
-import urllib
+import requests, urllib
+import Image
 from bs4 import BeautifulSoup, Comment
 
 headers = { "User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; "\
@@ -123,8 +123,20 @@ def cha6():
 
 	print "".join(out)  # Not the big "hockey", but the letters "oxygen"!!
 
+def cha7():
+	"Copy the solution."
+	img = urllib.urlopen("http://www.pythonchallenge.com/pc/def/oxygen.png").read()
+	i = Image.open(StringIO.StringIO(img))  # Image.open requires a file-like object
+	# repeat every 7 pixels, the bar is in the middle of img
+	row = [i.getpixel((x, i.size[1] / 2)) for x in range(0, i.size[0], 7)]
+	ords = [r for r, g, b, a in row if r == g == b]  # only look at rgb
+	# print "".join(map(chr, ords))
+	# print "".join(map(chr, [105, 110, 116, 101, 103, 114, 105, 116, 121]))
+	# or merge above two lines into:
+	print "".join(map(chr, map(int, re.findall("\d+", "".join(map(chr, ords))))))
+
 def main():
-	cha6()
+	cha7()
 
 if __name__ == '__main__':
 	main()
