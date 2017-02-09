@@ -40,9 +40,10 @@ def cha1():
 	cha1_another(s)
 
 def cha1_another(original, shift=2):
-	az = string.ascii_lowercase
+	# Credit: inspired by https://the-python-challenge-solutions.hackingnote.com/level-1.html
+	a2z = string.ascii_lowercase
 	table = string.maketrans(
-		az, az[shift:] + az[:shift] 
+		a2z, a2z[shift:] + a2z[:shift] 
 	)
 	print str(original).translate(table)
 
@@ -50,6 +51,7 @@ def cha2():
 	uri = "http://www.pythonchallenge.com/pc/def/ocr.html"
 	mess_data = get_comment(uri, 1)
 	print re.sub(r'[^a-zA-Z]+', '', mess_data)  # equality
+	# or
 	print "".join(re.findall(r'[a-zA-Z]', mess_data))  # equality
 
 def cha3():
@@ -136,7 +138,7 @@ def cha7():
 	print "".join(map(chr, map(int, re.findall("\d+", "".join(map(chr, ords))))))
 
 def main():
-	cha7()
+	cha1()
 
 if __name__ == '__main__':
 	main()
