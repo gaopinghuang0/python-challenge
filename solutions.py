@@ -18,9 +18,12 @@ def soup(url, func=lambda x, y: x, **kw):
 	content = BeautifulSoup(req)  
 	return func(content, url)
 
-def get_comment(url, index):
+def get_comment(url, index=0):
 	comments = soup(url).findAll(text=lambda text:isinstance(text, Comment))
 	return comments[index]
+
+
+
 
 def challenge0():
 	print "change url to 2**38", 2**38
@@ -111,7 +114,7 @@ def challenge6_wrong():
 			break
 
 def challenge6():
-	import zipfile, collections
+	import zipfile
 
 	# Download the ZIP file from http://www.pythonchallenge.com/pc/def/channel.zip
 	file = zipfile.ZipFile('channel.zip')
@@ -158,8 +161,25 @@ def challenge7():
 	# print "".join(map(chr, map(int, re.findall("\d+", "".join(map(chr, ords))))))
 
 
+def challenge8():
+	# comments = get_comment('http://www.pythonchallenge.com/pc/def/integrity.html')
+	# print comments
+	# from solution: https://the-python-challenge-solutions.hackingnote.com/level-8.html
+	# Another useful tool: 'file' command on unix. Learned from wiki.pythonchallenge.com
+	# first write the data to a file: fn.
+	# Note: do not use sublimeText or vim to create new file, which will change the file type
+	# use python open(fn, 'w').write(data)
+	# then call: file fn
+	# from output, we can infer the compression format
+	import bz2
+	# 'BZ' means bzip, h means Huffman coding, 
+	un = b'BZh91AY&SYA\xaf\x82\r\x00\x00\x01\x01\x80\x02\xc0\x02\x00 \x00!\x9ah3M\x07<]\xc9\x14\xe1BA\x06\xbe\x084'
+	pw = b'BZh91AY&SY\x94$|\x0e\x00\x00\x00\x81\x00\x03$ \x00!\x9ah3M\x13<]\xc9\x14\xe1BBP\x91\xf08'
+	print bz2.decompress(un), bz2.decompress(pw)
+
+
 def main():
-	challenge7()
+	challenge8()
 
 if __name__ == '__main__':
 	main()
