@@ -176,6 +176,8 @@ def challenge8():
 	un = b'BZh91AY&SYA\xaf\x82\r\x00\x00\x01\x01\x80\x02\xc0\x02\x00 \x00!\x9ah3M\x07<]\xc9\x14\xe1BA\x06\xbe\x084'
 	pw = b'BZh91AY&SY\x94$|\x0e\x00\x00\x00\x81\x00\x03$ \x00!\x9ah3M\x13<]\xc9\x14\xe1BBP\x91\xf08'
 	print bz2.decompress(un), bz2.decompress(pw)
+	# username: huge
+	# passwd: file
 
 def challenge9():
 	from PIL import Image, ImageDraw
@@ -257,8 +259,27 @@ def challenge12():
 	# disproportional
 	# http://www.pythonchallenge.com/pc/return/disproportional.html
 
+def challenge13():
+	# from challenge12, we can get the name of evil: Bert
+	# curl -u huge:file http://www.pythonchallenge.com/pc/return/evil4.jpg
+	# in which username is huge, passwd is file  (from: challenge8)
+	import xmlrpclib  # for Python 2.7
+	# import xmlrpc.client # for python 3.x
+	conn = xmlrpclib.ServerProxy('http://www.pythonchallenge.com/pc/phonebook.php')
+	print conn
+	print conn.system.listMethods()
+	# then get more info about method "phone"
+	# print conn.system.methodHelp("phone")
+	# print conn.system.methodSignature("phone")
+	print conn.phone('Bert')  # some error
+	# result from solution: '555-ITALY'
+	# italy
+	# http://www.pythonchallenge.com/pc/return/italy.html
+
+
+
 def main():
-	challenge12()
+	challenge13()
 
 if __name__ == '__main__':
 	main()
