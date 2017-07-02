@@ -243,10 +243,22 @@ def challenge11():
 				even.putpixel((x//2, y//2), pix[x,y])
 	even.save('even.jpg')
 	odd.save('odd.jpg')
+	# open even.jpg  ->  evil
+	# http://www.pythonchallenge.com/pc/return/evil.html
 
+
+def challenge12():
+	data = open('evil2.gfx', 'rb').read()
+	# since the first image is dealing the cards into 5, and the number is 5
+	# try to split the data into 5
+	for i in xrange(5):
+		open('challenge12-%d.jpg'%i, 'wb').write(data[i::5])
+	# put everything together
+	# disproportional
+	# http://www.pythonchallenge.com/pc/return/disproportional.html
 
 def main():
-	challenge11()
+	challenge12()
 
 if __name__ == '__main__':
 	main()
