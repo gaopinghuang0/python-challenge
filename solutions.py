@@ -207,12 +207,30 @@ def challenge9():
 	draw.polygon(first, fill="blue")
 	draw.polygon(second, fill="blue")
 	im.show()  # cow -> bull
+	# http://www.pythonchallenge.com/pc/def/bull.html
 	# similarly, use d3.js to draw a path
 
 
+def challenge10():
+	"""
+	a = [1, 11, 21, 1211, 111221, 
+	len(a[30]) = ?
+	Hint: look_and_say sequence  (Wiki)
+	"""
+	from itertools import groupby
+	def look_and_say(n):
+		a = '1'
+		for _ in xrange(n):
+			# groupby  -> [(number, all appearances)]
+			a = ''.join([str(len(list(j)))+i for i, j in groupby(a)])
+		return a
+
+	print len(look_and_say(30))  # 5808
+	# http://www.pythonchallenge.com/pc/return/5808.html
+
 
 def main():
-	challenge9()
+	challenge10()
 
 if __name__ == '__main__':
 	main()
