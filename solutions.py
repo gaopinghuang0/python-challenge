@@ -228,9 +228,25 @@ def challenge10():
 	print len(look_and_say(30))  # 5808
 	# http://www.pythonchallenge.com/pc/return/5808.html
 
+def challenge11():
+	im = Image.open('cave.jpg')  # Image.open requires a file-like object
+	pix = im.load()
+	w, h = im.size
+	even = Image.new('RGB', (w // 2, h // 2))
+	odd = Image.new('RGB', (w // 2, h // 2))
+
+	for x in xrange(w):
+		for y in xrange(h):
+			if (x+y) % 2 == 1:
+				odd.putpixel((x//2, y//2), pix[x,y])
+			else:
+				even.putpixel((x//2, y//2), pix[x,y])
+	even.save('even.jpg')
+	odd.save('odd.jpg')
+
 
 def main():
-	challenge10()
+	challenge11()
 
 if __name__ == '__main__':
 	main()
