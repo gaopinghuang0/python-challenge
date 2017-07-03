@@ -276,10 +276,32 @@ def challenge13():
 	# italy
 	# http://www.pythonchallenge.com/pc/return/italy.html
 
+def challenge14():
+	# image size 10000*1
+	im = Image.open('wire.png')
+	# 100*100 = (100+99+99+98) + (98+97+97+96) + (...)
+	out = Image.new('RGB', [100, 100])
+	delta = [(1, 0), (0,1), (-1, 0), (0, -1)] # right, down, left, up
+	p = 0  # for wire.png
+	x,y = -1,0  # for out
+	d = 200
+	while d/2 > 0:
+		for v in delta:
+			steps = d // 2
+			for s in xrange(steps):
+				x, y = x+v[0], y+v[1]
+				out.putpixel((x,y), im.getpixel((p,0)))
+				p += 1
+			d -= 1
+	out.save('challenge14.jpg')
+	# cat
+	# http://www.pythonchallenge.com/pc/return/cat.html
+	# name is uzi
+	# http://www.pythonchallenge.com/pc/return/uzi.html
 
 
 def main():
-	challenge13()
+	challenge14()
 
 if __name__ == '__main__':
 	main()
