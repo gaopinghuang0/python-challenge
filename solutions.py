@@ -299,9 +299,20 @@ def challenge14():
 	# name is uzi
 	# http://www.pythonchallenge.com/pc/return/uzi.html
 
+def challenge15():
+	import datetime, calendar
+	for year in xrange(1006, 1996, 10):
+		d = datetime.date(year, 1, 26)
+		if d.isoweekday() == 1 and calendar.isleap(year):
+			print d
+	# second youngest, tomorrow
+	# 1756-01-27
+	# birthday of Mozart
+	# http://www.pythonchallenge.com/pc/return/mozart.html
+
 
 def main():
-	challenge14()
+	challenge15()
 
 if __name__ == '__main__':
 	main()
