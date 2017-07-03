@@ -354,7 +354,6 @@ def challenge16():
     # http://www.pythonchallenge.com/pc/return/romance.html
 
 
-
 def main():
     challenge16()
 
