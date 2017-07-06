@@ -1,3 +1,5 @@
+# -*- coding:utf-8 -*-
+
 import requests
 
 
@@ -49,8 +51,46 @@ def challenge17():
     # http://www.pythonchallenge.com/pc/return/balloons.html
 
 
+def challenge18():
+    # http://www.pythonchallenge.com/pc/return/brightness.html
+    # download deltas.gz
+    import gzip, difflib
+    data = gzip.open("18/deltas.gz")
+    d1, d2 = [], []
+    for line in data:
+        d1.append(line[:53].decode()+'\n')
+        d2.append(line[56:].decode())
+
+    compare = difflib.Differ().compare(d1, d2)
+
+    f = open('18/f.png', 'wb')
+    f1 = open('18/f1.png', 'wb')
+    f2 = open('18/f2.png', 'wb')
+
+    for line in compare:
+        # print(line)
+        bs = bytes([int(o, 16) for o in line[2:].strip().split(" ") if o])
+        if bs:
+            if line[0] == '+':
+                f1.write(bs)
+            elif line[0] == '-':
+                f2.write(bs)
+            else:
+                print(bs)
+                f.write(bs)
+
+    f.close()   # do not open with Sublime Text. Use windows image viewer.
+    f1.close()
+    f2.close()
+    # ../hex/bin.html
+    # butter
+    # fly
+    # http://www.pythonchallenge.com/pc/hex/bin.html
+
+
+
 def main():
-    challenge17()
+    challenge18()
 
 if __name__ == '__main__':
     main()

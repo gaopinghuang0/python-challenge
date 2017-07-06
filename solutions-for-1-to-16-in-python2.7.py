@@ -231,7 +231,7 @@ def challenge10():
     # http://www.pythonchallenge.com/pc/return/5808.html
 
 def challenge11():
-    im = Image.open('cave.jpg')  # Image.open requires a file-like object
+    im = Image.open('11/cave.jpg')  # Image.open requires a file-like object
     pix = im.load()
     w, h = im.size
     even = Image.new('RGB', (w // 2, h // 2))
@@ -243,18 +243,18 @@ def challenge11():
                 odd.putpixel((x//2, y//2), pix[x,y])
             else:
                 even.putpixel((x//2, y//2), pix[x,y])
-    even.save('even.jpg')
-    odd.save('odd.jpg')
+    even.save('11/even.jpg')
+    odd.save('11/odd.jpg')
     # open even.jpg  ->  evil
     # http://www.pythonchallenge.com/pc/return/evil.html
 
 
 def challenge12():
-    data = open('evil2.gfx', 'rb').read()
+    data = open('12/evil2.gfx', 'rb').read()
     # since the first image is dealing the cards into 5, and the number is 5
     # try to split the data into 5
     for i in xrange(5):
-        open('challenge12-%d.jpg'%i, 'wb').write(data[i::5])
+        open('12/challenge12-%d.jpg'%i, 'wb').write(data[i::5])
     # put everything together
     # disproportional
     # http://www.pythonchallenge.com/pc/return/disproportional.html
@@ -271,14 +271,14 @@ def challenge13():
     # then get more info about method "phone"
     # print conn.system.methodHelp("phone")
     # print conn.system.methodSignature("phone")
-    print conn.phone('Bert')  # some error
+    print conn.phone('Bert')  # some error in python 2.x
     # result from solution: '555-ITALY'
     # italy
     # http://www.pythonchallenge.com/pc/return/italy.html
 
 def challenge14():
     # image size 10000*1
-    im = Image.open('wire.png')
+    im = Image.open('14/wire.png')
     # 100*100 = (100+99+99+98) + (98+97+97+96) + (...)
     out = Image.new('RGB', [100, 100])
     delta = [(1, 0), (0,1), (-1, 0), (0, -1)] # right, down, left, up
@@ -293,7 +293,7 @@ def challenge14():
                 out.putpixel((x,y), im.getpixel((p,0)))
                 p += 1
             d -= 1
-    out.save('challenge14.jpg')
+    out.save('14/challenge14.jpg')
     # cat
     # http://www.pythonchallenge.com/pc/return/cat.html
     # name is uzi
@@ -343,7 +343,7 @@ def challenge16():
         while line[idx] != 195:
             idx += 1
         return line[idx:] + line[:idx]
-    img = Image.open("mozart.gif")
+    img = Image.open("16/mozart.gif")
     new = Image.new(img.mode, img.size)
     for y in range(img.size[1]):
         line = [img.getpixel((x,y)) for x in range(img.size[0])]
