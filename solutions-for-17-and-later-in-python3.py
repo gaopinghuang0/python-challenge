@@ -87,10 +87,42 @@ def challenge18():
     # fly
     # http://www.pythonchallenge.com/pc/hex/bin.html
 
+def challenge19():
+    import email, base64, wave
+
+    message = open("19/email.txt", "rb").read().decode()
+    mail = email.message_from_string(message)
+
+    audio = mail.get_payload(0).get_payload(decode=True)
+    # print(audio)
+    with open("19/indian.wav", "wb") as f:
+        f.write(audio)
+
+
+
+    w = wave.open('19/indian.wav', 'rb')
+
+    h = wave.open("19/result.wav", "wb")
+
+    print(w.getnchannels())
+    print(w.getsampwidth())
+    print(w.getframerate())
+    h.setnchannels(w.getnchannels())
+    h.setsampwidth(w.getsampwidth()//2)
+    h.setframerate(w.getframerate()*2)
+    frames = w.readframes(w.getnframes())
+    wave.big_endiana = 1
+    h.writeframes(frames)
+    print(h.getnchannels())
+    print(h.getsampwidth())
+    print(h.getframerate())    
+
+
+    h.close()    
 
 
 def main():
-    challenge18()
+    challenge19()
 
 if __name__ == '__main__':
     main()
