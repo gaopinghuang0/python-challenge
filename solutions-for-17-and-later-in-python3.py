@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-import requests
+import requests, re
 
 
 def challenge17():
@@ -117,12 +117,61 @@ def challenge19():
     print(h.getsampwidth())
     print(h.getframerate())    
 
+    h.close()
+    # http://www.pythonchallenge.com/pc/hex/idiot2.html
 
-    h.close()    
+
+def challenge20():
+    url = 'http://www.pythonchallenge.com/pc/hex/unreal.jpg'
+    s = requests.Session()
+    s.auth = ('butter', 'fly')
+    req = s.get(url)  
+    print(req.headers)
+    pattern = re.compile('bytes (\d+)-(\d+)/(\d+)')
+    (start, end, length) = pattern.search(req.headers['Content-Range']).groups()
+
+    while True:
+        try:
+            s.headers.update({'Range': 'bytes=%i-'%(int(end) + 1)})
+            req = s.get(url)
+            print(req.headers)
+            print(req.text)
+            (start, end, length) = pattern.search(req.headers['Content-Range']).groups()
+        except:
+            break
+
+    # end = 30346
+    # invader
+    
+    # then check the content after the length
+    s.headers.update({'Range': 'bytes=%i-'%(int(length) + 1)})
+    req = s.get(url)
+    print(req.headers)
+    print(req.text)
+    (start, end, length) = pattern.search(req.headers['Content-Range']).groups()
+    # esrever ni emankcin wen ruoy si drowssap eht  --> reverse
+    # the password is your new nickname in reverse
+    # invader --> redavni  (password)
+    # go back
+    s.headers.update({'Range': 'bytes=%i-'%(int(start) - 1)})
+    req = s.get(url)
+    print(req.headers)
+    print(req.text)
+    # and it is hiding at 1152983631.
+    s.headers.update({'Range': 'bytes=1152983631-'})
+    req = s.get(url)
+    with open('21/question.zip', 'wb') as f:
+        f.write(bytes(req.content))  # passwd: redavni
+    # level 21 is not a url, but inside this zip file
+
+    
+
+
+
 
 
 def main():
-    challenge19()
+    challenge20()
 
 if __name__ == '__main__':
     main()
