@@ -265,11 +265,29 @@ def challenge24():
     open('24/maze.zip', 'wb').write(bytes(path[1::2]))
     # lake
     # http://www.pythonchallenge.com/pc/hex/lake.html
+    # keep in mind there is an extra file: some mybroken.gif
 
+
+def challenge25():
+    # first download all the wav files
+    # on Mac:   for i in {1..25}; do curl -u butter:fly http://www.pythonchallenge.com/pc/hex/lake$i.wav -o lake$i.wav; done
+    # 25 wavs = 5*5
+    import wave
+
+    wavs = [wave.open('25/lake%d.wav'%i) for i in range(1,26)]
+    result = Image.new('RGB', (300, 300), 0)
+    num_frames = wavs[0].getnframes()
+    for i in range(len(wavs)):
+        byte = wavs[i].readframes(num_frames)
+        img = Image.frombytes('RGB', (60, 60), byte)
+        result.paste(img, (60 * (i % 5), 60 * (i // 5)))
+    result.save('25/result.png')
+    # decent
+    # http://www.pythonchallenge.com/pc/hex/decent.html
 
 
 def main():
-    challenge24()
+    challenge25()
 
 if __name__ == '__main__':
     main()
