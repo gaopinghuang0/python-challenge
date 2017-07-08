@@ -165,13 +165,35 @@ def challenge20():
     # level 21 is not a url, but inside this zip file
 
     
+def challenge21():
+    import zlib, bz2
+    with open('21/question/package.pack', 'rb') as f:
+        data = f.read()
 
+        result = ''
+
+        while True:
+            if data.startswith(b'x\x9c'):
+                data = zlib.decompress(data)
+                result += ' '
+            elif data.startswith(b'BZh'):
+                data = bz2.decompress(data)
+                result += '#'
+            elif data.endswith(b'\x9cx'):
+                data = data[::-1]
+                result += '\n'
+            else:
+                break
+
+        print(data)  # b'sgol ruoy ta kool', add logging
+        print(result)  # copper
+        # http://www.pythonchallenge.com/pc/hex/copper.html
 
 
 
 
 def main():
-    challenge20()
+    challenge21()
 
 if __name__ == '__main__':
     main()
