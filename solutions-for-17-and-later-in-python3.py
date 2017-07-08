@@ -219,8 +219,21 @@ def challenge22():
     # http://www.pythonchallenge.com/pc/hex/bonus.html
 
 
+def challenge23():
+    import this
+    print(this.s)
+    print(this.d)
+    s = 'va gur snpr bs jung?'
+    print(''.join([this.d.get(c, c) for c in s]))
+    # in the face of what? -> ambiguity
+    # http://www.pythonchallenge.com/pc/hex/ambiguity.html
+
+
+
+
+
 def main():
-    challenge22()
+    challenge23()
 
 if __name__ == '__main__':
     main()
