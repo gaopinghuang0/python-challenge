@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import requests, re
+import bz2
 from PIL import Image, ImageDraw  # pillow
 
 
@@ -167,7 +168,7 @@ def challenge20():
 
     
 def challenge21():
-    import zlib, bz2
+    import zlib
     with open('21/question/package.pack', 'rb') as f:
         data = f.read()
 
@@ -313,8 +314,6 @@ def challenge26():
 
 
 def challenge27():
-    import bz2
-
     im = Image.open('27/zigzag.gif')
     palette = im.getpalette()[::3]
     print(len(palette))
@@ -342,9 +341,42 @@ def challenge27():
     # repeat, switch  (exec and print are not keywords in python 3)
     # http://www.pythonchallenge.com/pc/ring/bell.html
 
+def challenge28():
+    # how can we know it is related to "green"?  ring-ring-ring -> ringringring -> green
+    # http://www.pythonchallenge.com/pc/ring/green.html
+    im = Image.open('28/bell.png')
+
+    # get green from RGB
+    green = list(im.split()[1].getdata())
+
+    # calculate diff for every two bytes
+    diff = [abs(a-b) for a, b in zip(green[0::2], green[1::2])]
+
+    print(diff)
+
+    # remove all the 42
+    filtered = list(filter(lambda x: x != 42, diff))
+
+    print(filtered)
+
+    print(bytes(filtered).decode())
+    # whodunnit().split()[0] ?
+    # The creator of Python is Guido van Rossum, so the final answer is "guido"
+    # http://www.pythonchallenge.com/pc/ring/guido.html
+
+def challenge29():
+    # well, there are many empty lines after </html> !!!
+    req = requests.get('http://www.pythonchallenge.com/pc/ring/guido.html', auth=('repeat', 'switch'))
+    # print(req.content)
+    lines = req.content.splitlines()[12:]
+    print(lines)
+    data = bytes([len(i) for i in lines])
+    print(data)
+    print(bz2.decompress(data))
+
 
 def main():
-    challenge27()
+    challenge29()
 
 if __name__ == '__main__':
     main()
