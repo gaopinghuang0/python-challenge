@@ -456,9 +456,39 @@ def challenge31():
     # http://www.pythonchallenge.com/pc/rock/arecibo.html
 
 
+def challenge32():
+    # see a seperate file
+    pass
+
+def challenge33():
+    import math, time
+
+    im = Image.open('33/beer2.png')
+    print(im.mode)
+    print(im.histogram())
+    # print(list(im.getdata()))
+    out = None
+
+    data = list(im.getdata())
+
+    for i in range(33):
+        max_value = max(data)
+        data = [x for x in data if x < max_value - 1]
+        print(len(data))
+        l = int(math.sqrt(len(data)))
+        out = Image.new('L', (l, l))
+        out.putdata(data)
+        out.show()
+        time.sleep(2)
+    # vinegarwinemoldin   -- wrong
+    # only letters with frames (square)
+    # gremlins
+    # http://www.pythonchallenge.com/pc/rock/gremlins.html
+
+
 
 def main():
-    challenge31()
+    challenge33()
 
 if __name__ == '__main__':
     main()
