@@ -1,9 +1,12 @@
 # python_challenge
 Practice on http://www.pythonchallenge.com/
 
-all code in solutions.py
+all code in solutions-*.py
 
-official solution: https://the-python-challenge-solutions.hackingnote.com/
+unofficial solutions: https://the-python-challenge-solutions.hackingnote.com/
+
+links to official soluitons: https://the-python-challenge-solutions.hackingnote.com/links.html
+
 
 ## notes
 
