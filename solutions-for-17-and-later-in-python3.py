@@ -229,11 +229,47 @@ def challenge23():
     # http://www.pythonchallenge.com/pc/hex/ambiguity.html
 
 
+def challenge24():
+    maze = Image.open('24/maze.png')
+    w, h = maze.size
+    for i in range(w):
+        print(maze.getpixel((i,0)))  # entrance is not white
+    for i in range(w):
+        print(maze.getpixel((i, h-1)))  # exit is not white
+        
+    directions = [(0,1), (0,-1), (1,0), (-1,0)]
+    white = (255, 255, 255, 255)
+
+    next_map = {}
+
+    entrance = (w - 2, 0)
+    exit = (1, h - 1)
+    queue = [exit]
+    while queue:
+        pos = queue.pop(0)
+        if pos == entrance:
+            break
+        for d in directions:
+            tmp = (pos[0] + d[0], pos[1] + d[1])
+            if not tmp in next_map and 0 <= tmp[0] < w and 0 <= tmp[1] < h and maze.getpixel(tmp) != white:
+                next_map[tmp] = pos
+                queue.append(tmp)
+
+    path = []
+    while pos != exit: 
+        path.append(maze.getpixel(pos)[0])
+        pos = next_map[pos]
+
+    # skipping all 0s
+    print(path)
+    open('24/maze.zip', 'wb').write(bytes(path[1::2]))
+    # lake
+    # http://www.pythonchallenge.com/pc/hex/lake.html
 
 
 
 def main():
-    challenge23()
+    challenge24()
 
 if __name__ == '__main__':
     main()
