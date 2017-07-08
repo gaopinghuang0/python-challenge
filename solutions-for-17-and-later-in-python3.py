@@ -312,10 +312,39 @@ def challenge26():
     # http://www.pythonchallenge.com/pc/hex/speedboat.html
 
 
+def challenge27():
+    import bz2
+
+    im = Image.open('27/zigzag.gif')
+    palette = im.getpalette()[::3]
+    print(len(palette))
+    table = bytes.maketrans(bytes([i for i in range(256)]), bytes(palette))
+    print(table)
+    raw = im.tobytes()
+    trans = raw.translate(table)
+    print(raw)
+    zipped = list(zip(raw[1:], trans[:-1]))
+    diff = list(filter(lambda p: p[0] != p[1], zipped))
+    indices = [i for i,p in enumerate(zipped) if p[0] != p[1]]
+    im2 = Image.new('RGB', im.size)
+    colors = [(255, 255, 255)] * len(raw)
+    for i in indices:
+        colors[i] = (0, 0, 0)
+    im2.putdata(colors)
+    # im2.show()
+    # not keyword
+    s = [t[0] for t in diff]
+    text = bz2.decompress(bytes(s))
+    print(text)
+
+    import keyword
+    print(set([w for w in text.split() if not keyword.iskeyword(w.decode())]))
+    # repeat, switch  (exec and print are not keywords in python 3)
+    # http://www.pythonchallenge.com/pc/ring/bell.html
 
 
 def main():
-    challenge26()
+    challenge27()
 
 if __name__ == '__main__':
     main()
