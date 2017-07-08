@@ -407,10 +407,58 @@ def challenge30():
         # http://www.pythonchallenge.com/pc/ring/grandpa.html
 
 
+def challenge31():
+    # search the image ->
+    # username: kohsamui
+    # passwd: thailand
+    # http://www.pythonchallenge.com/pc/rock/grandpa.html
+    # Mandelbrot set
+    img = Image.open('31/mandelbrot.gif')
+    left = 0.34
+    bottom = 0.57
+    width = 0.036
+    height = 0.027
+    max = 128
+
+    w, h = img.size
+    xstep = width / w
+    ystep = height / h
+
+    result = []
+
+    for y in range(h-1, -1, -1):
+        for x in range(w):
+            c = complex(left+x*xstep, bottom+y*ystep)
+            z = 0 + 0j
+            for i in range(max):
+                z = z*z + c
+                if abs(z) > 2:
+                    break
+            result.append(i)
+
+    # print(result)
+    img2 = img.copy()
+    img2.putdata(result)
+    # img2.show()
+
+    diff = [(a-b) for a,b in zip(img.getdata(), img2.getdata()) if a != b]
+    length = len(diff)
+    print(length)
+    # 1679
+    factors = [x for x in range(2, length) if length % x == 0]
+    print(factors)
+    # -> 23 * 73
+
+    plot = Image.new('L', (23, 73))  # note the type is "L"
+    plot.putdata([(i<16) and 255 or 0 for i in diff])
+    plot.resize((230, 730)).show()
+    # Arecibo_message
+    # http://www.pythonchallenge.com/pc/rock/arecibo.html
+
 
 
 def main():
-    challenge30()
+    challenge31()
 
 if __name__ == '__main__':
     main()
