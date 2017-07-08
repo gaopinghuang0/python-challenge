@@ -285,9 +285,37 @@ def challenge25():
     # decent
     # http://www.pythonchallenge.com/pc/hex/decent.html
 
+def challenge26():
+    # send email to leopold.moz@pythonchallenge.com
+    # reply from Leopold    RE: sorry
+    # Never mind that.
+    # Have you found my broken zip?
+    # md5: bbb8b499a0eef99b52c7f13f4e78c24b
+    # Can you believe what one mistake can lead to?
+
+    import hashlib
+    def search_and_save():
+        # search the one mistake and check md5
+        for i in range(len(data)):
+            for j in range(256):  # try every value
+                newData = data[:i] + bytes([j]) + data[i+1:]
+                if hashlib.md5(newData).hexdigest() == md5code:
+                    open('26/repaired.zip', 'wb').write(newData)
+                    return
+
+    md5code = 'bbb8b499a0eef99b52c7f13f4e78c24b'
+    data = open('24/maze/mybroken.zip', 'rb').read()
+    search_and_save()
+    # speed
+    # Hurry up, I'm missing the boat
+    # speedboat
+    # http://www.pythonchallenge.com/pc/hex/speedboat.html
+
+
+
 
 def main():
-    challenge25()
+    challenge26()
 
 if __name__ == '__main__':
     main()
