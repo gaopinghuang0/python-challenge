@@ -373,10 +373,44 @@ def challenge29():
     data = bytes([len(i) for i in lines])
     print(data)
     print(bz2.decompress(data))
+    # b"Isn't it clear? I am yankeedoodle!"
+    # http://www.pythonchallenge.com/pc/ring/yankeedoodle.html
+
+
+def challenge30():
+    # convert csv into image
+    # first find the size
+    with open('30/yankeedoodle.csv') as f:
+        data = [x.strip() for x in f.read().split(',')]
+        length = len(data)
+        print(length)
+        # 7367
+        factors = [x for x in range(2, length) if length % x == 0]
+        print(factors)
+        # [53, 139]  <- size
+
+        img = Image.new('F', (53, 139))  # note: the type is "F"
+        img.putdata(list(map(float, data)), 256)
+        # img.show()
+
+        img = img.transpose(Image.FLIP_LEFT_RIGHT)
+        img = img.transpose(Image.ROTATE_90)
+        # img.show()
+
+        a = data[0::3]
+        b = data[1::3]
+        c = data[2::3]
+
+        n = bytes([int(x[0][5]+x[1][5]+x[2][6]) for x in zip(a,b,c)])
+        print(n)
+        # grandpa
+        # http://www.pythonchallenge.com/pc/ring/grandpa.html
+
+
 
 
 def main():
-    challenge29()
+    challenge30()
 
 if __name__ == '__main__':
     main()
