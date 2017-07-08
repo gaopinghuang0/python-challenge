@@ -5,7 +5,7 @@ all code in solutions-*.py
 
 unofficial solutions: https://the-python-challenge-solutions.hackingnote.com/
 
-links to official soluitons: https://the-python-challenge-solutions.hackingnote.com/links.html
+links to official solutions: https://the-python-challenge-solutions.hackingnote.com/links.html
 
 
 ## notes
